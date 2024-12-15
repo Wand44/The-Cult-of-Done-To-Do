@@ -1,12 +1,9 @@
 import tkinter as tk
 from tkinter import ttk
 import customtkinter as ctk
-from ctypes import windll, byref, sizeof, c_int
-
 from settings import *
 
 tasks = []
-
     
 def add_task():
     task_text = entry.get()
