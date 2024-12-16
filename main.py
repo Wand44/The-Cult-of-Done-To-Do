@@ -1,45 +1,56 @@
-import tkinter as tk
-from tkinter import ttk
-import customtkinter as ctk
-from settings import *
+import tkinter as tk, json, customtkinter as ctk; from tkinter import ttk; from settings import *
+
 
 tasks = []
-    
+class Task:
+    def __init__(self, text):
+        self.text = text 
+        self.completed = False 
+
+#def load_tasks(filename="tasks.json"):
+#    with open(filename, "w") as file:
+#        tasks = json.loads(tasks.json)
+
+def save_tasks(filename="tasks.json"):
+    with open(filename, "w") as file:
+        json.dump([task.text for task in tasks], file, indent=4)
+
 def add_task():
-    task_text = entry.get()
-    if task_text.strip():  # Don't add empty tasks
-        tasks.append(task_text)  # Add task to the list
-        entry.delete(0, tk.END)  # Clear the entry widget
-        update_task_list()  # Update the task display
+    if entry.get() != '':
+        tasks.insert(0,Task(entry.get().strip()))  
+        entry.delete(0, tk.END)  
+        update_task_list()  
 
 def remove_task(index):
-    del tasks[index]  # Remove task from the list
+    del tasks[index]  
     update_task_list()
 
-# update the displayed tasks
 def update_task_list():
-    # Clear the existing tasks from the task list frame
+#   load_tasks(filename="tasks.json")
     for widget in task_list_frame.winfo_children():
         widget.destroy()
-    # Create a new label for each task in the task list
+
     for index, task in enumerate(tasks):
         task_label_frame = ctk.CTkFrame(task_list_frame,  fg_color='#343638')
         task_label_frame.pack(padx=5, pady=5, anchor='w', fill='x')
 
-        check_button = ctk.CTkButton(task_label_frame, command=lambda i=index: remove_task(i), text = '',
-                                    width=CHECK_BUTTON_DIM, height=CHECK_BUTTON_DIM, corner_radius=9, border_width=1, border_color= PRIMARY,
-                                    fg_color = "#343638",text_color=BLACK, hover_color='#2b2b2b')
+        check_button = ctk.CTkButton(task_label_frame,
+            command=lambda i=index: remove_task(i), text = '',
+            width=CHECK_BUTTON_DIM, height=CHECK_BUTTON_DIM,
+            corner_radius=9, border_width=1, border_color= PRIMARY,
+            fg_color = "#343638",text_color=BLACK, hover_color='#2b2b2b')
         check_button.pack(padx=7, side = 'left')
 
-        task_label = ctk.CTkLabel(task_label_frame, text=task, font=ctk.CTkFont(size=14), fg_color='#343638',text_color='white', corner_radius = 5)
-        task_label.pack(padx=5, pady=5, anchor='w')
+        task_label = ctk.CTkLabel(task_label_frame, text=task.text, font=ctk.CTkFont(size=14), fg_color='#343638',text_color='white', corner_radius = 5)
+        task_label.pack(padx=5, pady=5, anchor='w') 
+    save_tasks(filename="tasks.json") 
 
 
 # window
 window = ctk.CTk()
 window.title("")
 window.geometry('400x600')
-window.iconbitmap('empty.ico') 
+#window.iconbitmap('empty.ico') 
 window.configure(fg_color=BLACK)
 
 # main frame
