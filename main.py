@@ -2,14 +2,19 @@ import tkinter as tk, json, customtkinter as ctk; from tkinter import ttk; from 
 
 
 tasks = []
+
+
 class Task:
     def __init__(self, text):
         self.text = text 
         self.completed = False 
 
-#def load_tasks(filename="tasks.json"):
-#    with open(filename, "w") as file:
-#        tasks = json.loads(tasks.json)
+
+def load_tasks(filename="tasks.json"):
+    with open(filename, "r") as file:
+        task_texts = json.load(file)
+        tasks = [Task(text) for text in task_texts]
+    return tasks
 
 def save_tasks(filename="tasks.json"):
     with open(filename, "w") as file:
@@ -26,7 +31,6 @@ def remove_task(index):
     update_task_list()
 
 def update_task_list():
-#   load_tasks(filename="tasks.json")
     for widget in task_list_frame.winfo_children():
         widget.destroy()
 
@@ -40,17 +44,24 @@ def update_task_list():
             corner_radius=9, border_width=1, border_color= PRIMARY,
             fg_color = "#343638",text_color=BLACK, hover_color='#2b2b2b')
         check_button.pack(padx=7, side = 'left')
+        font = ctk.CTkFont( family = FONT, size = 36)
+        remove_button = ctk.CTkButton(task_label_frame, font = font,
+            width=35,
+            command=lambda i=index: remove_task(i), text = '-', border_width=0,
+            fg_color = "#343638",text_color='red', hover_color="#343638")
+        remove_button.pack(padx=7,pady=7, side = 'right')
 
         task_label = ctk.CTkLabel(task_label_frame, text=task.text, font=ctk.CTkFont(size=14), fg_color='#343638',text_color='white', corner_radius = 5)
         task_label.pack(padx=5, pady=5, anchor='w') 
-    save_tasks(filename="tasks.json") 
+        
 
-
+    save_tasks() 
+    
 # window
 window = ctk.CTk()
 window.title("")
 window.geometry('400x600')
-#window.iconbitmap('empty.ico') 
+window.iconbitmap('empty.ico') 
 window.configure(fg_color=BLACK)
 
 # main frame
@@ -64,7 +75,8 @@ task_list_frame.pack(padx = 4, pady = 4, fill = 'both', anchor = 'n', expand = T
 # entry
 entry = ctk.CTkEntry(frame, placeholder_text="Add a task", border_width=1 )
 entry.pack(padx = 4, pady = 5, side = 'left', fill = 'both', expand = True)
-
+tasks = load_tasks()
+update_task_list()
 # + button
 font = ctk.CTkFont(weight ='bold', family = FONT, size = 23)
 plus_button = ctk.CTkButton(frame,text = '+', command = add_task, font = font,
