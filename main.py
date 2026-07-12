@@ -4,7 +4,6 @@ import random
 from principles import *
 from settings import *
 from countdown import calculate_countdown
-from task_manager import load_tasks, save_tasks, add_task, complete_task, remove_task
 
 tasks = []
 #principles
@@ -33,7 +32,6 @@ class Task:
         self.text = text 
         self.completed = False 
         self.creation_date = datetime.datetime.now()
-"""
 
 def load_tasks(filename="tasks.json"):
     with open(filename, "r") as file:
@@ -79,7 +77,6 @@ def remove_task(task):
         tasks.remove(task)
     update_task_list()
     save_tasks()
-"""
 
 def update_task_list():
     for widget in task_list_frame.winfo_children():
