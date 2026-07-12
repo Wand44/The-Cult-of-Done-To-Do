@@ -1,1 +1,27 @@
-[]
+[
+    {
+        "text": "adasdsads",
+        "completed": false,
+        "creation_date": "2026-07-12T19:26:30.202141"
+    },
+    {
+        "text": "adsadas",
+        "completed": false,
+        "creation_date": "2026-07-12T19:26:28.893804"
+    },
+    {
+        "text": "adasds",
+        "completed": false,
+        "creation_date": "2026-07-12T19:26:26.820937"
+    },
+    {
+        "text": "adsadasd",
+        "completed": false,
+        "creation_date": "2026-07-12T19:26:24.817503"
+    },
+    {
+        "text": "adsadsa",
+        "completed": true,
+        "creation_date": "2026-07-12T19:26:31.303713"
+    }
+]
